@@ -150,7 +150,9 @@ module Resque
 
       def redis_key_exists?(key)
         if Resque.redis.respond_to?(:exists?)
-          Resque.redis.exists?(key)
+          will_handle_namespaced_exists = Resque.redis.try(:namespace).blank? ||
+                                          Redis::Namespace::COMMANDS.include?(:exists?)
+          Resque.redis.exists?(will_handle_namespaced_exists ? key : "#{Resque.redis.namespace}:#{key}")
         else
           ![false, 0].include?(Resque.redis.exists(key) || false)
         end

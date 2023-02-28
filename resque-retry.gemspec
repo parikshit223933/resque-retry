@@ -28,6 +28,7 @@ Gem::Specification.new do |s|
   s.files = `git ls-files`.split($/)
   s.require_paths = %w[lib]
 
+  s.add_dependency "redis-namespace", ">= 1.2"
   s.add_dependency('resque', '>= 1.25', '< 3.0')
   s.add_dependency('resque-scheduler', '>= 4.0', '<6.0')
 
